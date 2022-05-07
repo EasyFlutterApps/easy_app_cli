@@ -31,4 +31,11 @@ class ModuleCommand extends Command<int> {
   ArgResults? argResultOverrides;
 
   ArgResults get _argResults => argResultOverrides ?? argResults!;
+
+  @override
+  Future<int> run() async {
+    _logger.info('Running command: $name ${_argResults.arguments}');
+
+    return ExitCode.usage.code;
+  }
 }

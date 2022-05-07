@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
+import 'package:easy_app_cli/src/utils/bricks/bricks.dart';
 import 'package:easy_app_cli/src/utils/constants/constants.dart';
-import 'package:mason_logger/mason_logger.dart';
+import 'package:mason/mason.dart';
 
 /// Command for the module.
 class BlankCommand extends Command<int> {
@@ -31,4 +34,33 @@ class BlankCommand extends Command<int> {
   ArgResults? argResultOverrides;
 
   ArgResults get _argResults => argResultOverrides ?? argResults!;
+
+  @override
+  Future<int> run() async {
+    final generateDone = _logger.progress('Bootstrapping');
+    generateDone.call();
+
+    try {
+      await _generate();
+    } catch (e) {
+      _logger.err(e.toString());
+    }
+
+    return ExitCode.usage.code;
+  }
+
+  Future<void> _generate() async {
+    final brick = Brick.version(
+      name: BricksName.blank,
+      version: kBricks[BricksName.blank]!,
+    );
+    final generator = await MasonGenerator.fromBrick(brick);
+    final target = DirectoryGeneratorTarget(Directory.current);
+    await generator.generate(
+      target,
+      vars: <String, dynamic>{
+        'name': _argResults.arguments[0],
+      },
+    );
+  }
 }

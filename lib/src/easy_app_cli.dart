@@ -19,10 +19,16 @@ class EasyAppCli extends CommandRunner<int> {
           Constants.packageName,
           'A command line interface for the easy_app package.',
         ) {
-    argParser.addFlag(
+    argParser
+      ..addFlag(
       'version',
       negatable: false,
       help: 'Print the current version.',
+      )
+      ..addFlag(
+        'auto',
+        negatable: false,
+        help: 'Automatically run the command.',
     );
 
     /// Add the commands to the runner.
