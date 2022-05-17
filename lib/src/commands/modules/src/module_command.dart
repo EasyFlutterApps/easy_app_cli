@@ -1,7 +1,10 @@
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
+import 'package:cli_dialog/cli_dialog.dart';
 import 'package:easy_app_cli/src/utils/constants/constants.dart';
-import 'package:mason_logger/mason_logger.dart';
+import 'package:easy_app_cli/src/utils/core/bricks.dart';
+import 'package:easy_app_cli/src/utils/generator/generate_bricks.dart';
+import 'package:mason/mason.dart';
 
 /// Command for the module.
 class ModuleCommand extends Command<int> {
@@ -34,7 +37,31 @@ class ModuleCommand extends Command<int> {
 
   @override
   Future<int> run() async {
-    _logger.info('Running command: $name ${_argResults.arguments}');
+    final generateDone = _logger.progress('Bootstrapping');
+    generateDone.call();
+
+    final String template;
+
+    if (_argResults.arguments.isEmpty) {
+      print('************************************');
+      final dialog = CLI_Dialog(
+        questions: <String>['What is your name?', 'name'],
+      );
+
+      print(dialog.ask()['name']);
+      return 1;
+    } else {
+      template = _argResults.arguments.first;
+    }
+
+    await generateBricks(
+      _logger,
+      brickName: BricksName.blank,
+      brickVersion: kBricks[BricksName.blank]!,
+      vars: <String, dynamic>{
+        'name': _argResults.arguments[0],
+      },
+    );
 
     return ExitCode.usage.code;
   }

@@ -35,7 +35,6 @@ class EasyAppCli extends CommandRunner<int> {
     addCommand(InitCommand(logger: _logger));
     addCommand(ModuleCommand(logger: _logger));
     addCommand(BottomNavBarCommand(logger: _logger));
-    addCommand(BlankCommand(logger: _logger));
   }
 
   final Logger _logger;
