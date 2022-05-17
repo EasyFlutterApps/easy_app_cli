@@ -6,7 +6,6 @@ const kBricks = <String, String>{
   BricksName.init: '0.1.0+1-dev0.3',
 };
 
-/// Enum list for brick names
 class BricksName {
   static const String blank = 'easy_app_blank';
   static const String init = 'easy_app_init';

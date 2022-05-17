@@ -6,6 +6,8 @@ import 'package:easy_app_cli/src/utils/core/bricks.dart';
 import 'package:easy_app_cli/src/utils/generator/generate_bricks.dart';
 import 'package:mason/mason.dart';
 
+part 'blank.dart';
+
 /// Command for the module.
 class ModuleCommand extends Command<int> {
   /// Constructor.
@@ -43,13 +45,13 @@ class ModuleCommand extends Command<int> {
     final String template;
 
     if (_argResults.arguments.isEmpty) {
-      print('************************************');
       final dialog = CLI_Dialog(
-        questions: <String>['What is your name?', 'name'],
+        questions: <dynamic>[
+          ['What is your module name?', 'name']
+        ],
       );
 
-      print(dialog.ask()['name']);
-      return 1;
+      template = dialog.ask()['name'].toString();
     } else {
       template = _argResults.arguments.first;
     }
@@ -59,7 +61,7 @@ class ModuleCommand extends Command<int> {
       brickName: BricksName.blank,
       brickVersion: kBricks[BricksName.blank]!,
       vars: <String, dynamic>{
-        'name': _argResults.arguments[0],
+        'name': template,
       },
     );
 

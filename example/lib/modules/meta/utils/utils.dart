@@ -1,3 +1,0 @@
-class MetaUtils {
-  MetaUtils();
-}

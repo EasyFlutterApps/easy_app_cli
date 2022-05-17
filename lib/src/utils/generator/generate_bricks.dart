@@ -6,7 +6,8 @@ Future<void> generateBricks(
   Logger logger, {
   required String brickName,
   required String brickVersion,
-  required Map<String, dynamic> vars,
+  Map<String, dynamic>? vars = const <String, dynamic>{},
+  FileConflictResolution? conflictResolution = FileConflictResolution.append,
 }) async {
   try {
     final brick = Brick.version(
@@ -17,7 +18,8 @@ Future<void> generateBricks(
     final target = DirectoryGeneratorTarget(Directory.current);
     await generator.generate(
       target,
-      vars: vars,
+      vars: vars!,
+      fileConflictResolution: conflictResolution,
     );
   } catch (e) {
     logger.err(e.toString());
