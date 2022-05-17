@@ -1,6 +1,5 @@
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
-import 'package:easy_app_cli/src/commands/components/components.dart';
 import 'package:easy_app_cli/src/commands/init/init.dart';
 import 'package:easy_app_cli/src/commands/modules/modules.dart';
 import 'package:easy_app_cli/src/utils/constants/constants.dart';
@@ -20,21 +19,16 @@ class EasyAppCli extends CommandRunner<int> {
           'A command line interface for the easy_app package.',
         ) {
     argParser
-      ..addFlag(
+      .addFlag(
       'version',
       negatable: false,
       help: 'Print the current version.',
-      )
-      ..addFlag(
-        'auto',
-        negatable: false,
-        help: 'Automatically run the command.',
     );
 
     /// Add the commands to the runner.
     addCommand(InitCommand(logger: _logger));
     addCommand(ModuleCommand(logger: _logger));
-    addCommand(BottomNavBarCommand(logger: _logger));
+    // addCommand(BottomNavBarCommand(logger: _logger));
   }
 
   final Logger _logger;
